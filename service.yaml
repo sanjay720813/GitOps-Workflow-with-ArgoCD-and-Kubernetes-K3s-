@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-shop-app-service
+  labels:
+    app: online-shop-app
+    tier: frontend
+spec:
+  type: NodePort
+  selector:
+    app: online-shop-app
+    tier: frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30080
