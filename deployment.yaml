@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-shop-app-deployment
+  labels:
+    app: online-shop-app
+    tier: frontend
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: online-shop-app
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: online-shop-app
+        tier: frontend
+    spec:
+      containers:
+      - name: online-shop-app
+        image: sanjay1207/nodejs-demo-app:latest   # Updated image
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
